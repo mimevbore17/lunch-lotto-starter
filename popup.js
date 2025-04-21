@@ -23,6 +23,9 @@ async function fetchRestaurants() {
       // 🔄 Show Loading GIF and Hide the Wheel
       document.getElementById("loading-gif").style.display = "block";
       document.getElementById("wheel").style.display = "none";
+
+      // ⏳ Start progress bar
+      const progressInterval = showProgressBar();
   
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude: lat, longitude: lng } = position.coords;
@@ -32,6 +35,9 @@ async function fetchRestaurants() {
   
         const response = await fetch(url);
         const data = await response.json();
+
+        // ✅ Complete progress bar
+        completeProgressBar(progressInterval);
   
         if (!data.results || data.results.length === 0) {
           console.error("❌ No restaurants found!");
@@ -76,6 +82,7 @@ async function fetchRestaurants() {
         }, 2000);
   
       }, (error) => {
+        completeProgressBar(progressInterval);
         console.error("❌ Geolocation error:", error);
         alert("Please enable location access to fetch restaurants.");
         document.getElementById("loading-gif").style.display = "none"; // ✅ Hide loading GIF on error
@@ -128,6 +135,36 @@ function hideSettings() {
   document.getElementById("main-view").style.display = "block";
   document.getElementById("settings-view").style.display = "none";
 }
+
+function showProgressBar() {
+  const container = document.getElementById("progress-container");
+  const bar = document.getElementById("progress-bar");
+  container.style.display = "block";
+  bar.style.width = "0%";
+
+  // Simulate progress (for demo, since fetch doesn't have true progress)
+  let width = 0;
+  const interval = setInterval(() => {
+    if (width >= 90) {
+      clearInterval(interval); // Don't go to 100% until fetch completes
+    } else {
+      width += 10;
+      bar.style.width = `${width}%`;
+    }
+  }, 300);
+
+  return interval; // So we can clear it later
+}
+
+function completeProgressBar(interval) {
+  clearInterval(interval);
+  const bar = document.getElementById("progress-bar");
+  bar.style.width = "100%";
+  setTimeout(() => {
+    document.getElementById("progress-container").style.display = "none";
+  }, 500);
+}
+
 
 // Ensure scripts run only after DOM is loaded
 document.addEventListener("DOMContentLoaded", async () => {
