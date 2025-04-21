@@ -53,10 +53,28 @@
     </div>
   </div>
 
-  <!-- Progress bar (initially hidden) -->
-    <div id="progress-container" style="display: none; width: 100%; margin-top: 10px;">
-      <div id="progress-bar" style="height: 6px; background: #4CAF50; width: 0%; transition: width 0.3s;"></div>
-    </div>
+  <!-- Progress bar container (top center) -->
+  <div id="progress-container" style="
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 10px;
+    z-index: 9999;
+  ">
+    <div id="progress-bar" style="
+      height: 100%;
+      width: 0%;
+      background: #4CAF50;
+      transition: width 0.3s ease;
+    "></div>
+  </div>
 
 
   <script src="libs/sweetalert.min.js"></script>
