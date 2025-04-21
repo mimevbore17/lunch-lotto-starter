@@ -145,7 +145,7 @@ function showProgressBar() {
   // Simulate progress (for demo, since fetch doesn't have true progress)
   let width = 0;
   const interval = setInterval(() => {
-    if (width >= 99) {
+    if (width >= 95) {
       clearInterval(interval); // Don't go to 100% until fetch completes
     } else {
       width += 10;
