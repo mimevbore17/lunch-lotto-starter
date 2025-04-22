@@ -79,6 +79,7 @@ async function fetchRestaurants() {
           document.getElementById("loading-gif").style.display = "none"; // ✅ Hide Loading GIF
           document.getElementById("wheel").style.display = "block"; // ✅ Show the wheel
           updateWheel(restaurants); // ✅ Update the wheel with restaurant names
+          completeProgressBar(progressInterval);
         }, 2000);
   
       }, (error) => {
@@ -145,7 +146,7 @@ function showProgressBar() {
   // Simulate progress (for demo, since fetch doesn't have true progress)
   let width = 0;
   const interval = setInterval(() => {
-    if (width >= 95) {
+    if (width >= 90) {
       clearInterval(interval); // Don't go to 100% until fetch completes
     } else {
       width += 10;
