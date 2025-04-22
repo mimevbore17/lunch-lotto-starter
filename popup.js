@@ -109,6 +109,7 @@ async function fetchRestaurants() {
     options.push(...selectedRestaurants.map((restaurant) => ({
       name: restaurant.name,
       googleMapsLink: restaurant.googleMapsLink, // Add Google Maps link
+      placeId: restaurant.placeId,
     })));
   
     // Debugging: Log the selected restaurants with their links
@@ -177,12 +178,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   //logic for viewing restaurant history
   document.getElementById("view-history").addEventListener("click", () => {
     const container = document.getElementById("history-container");
-    const clearBtn = document.getElementById("clear-history");
   
     // Toggle visibility
     const isVisible = container.style.display === "block";
     container.style.display = isVisible ? "none" : "block";
-    clearBtn.style.display = isVisible ? "none" : "inline-block";
   
     if (isVisible) return; // Don't reload if hiding
   
