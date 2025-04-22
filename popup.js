@@ -176,14 +176,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   //logic for viewing restaurant history
   document.getElementById("view-history").addEventListener("click", () => {
+    const container = document.getElementById("history-container");
+    const clearBtn = document.getElementById("clear-history");
+  
+    // Toggle visibility
+    const isVisible = container.style.display === "block";
+    container.style.display = isVisible ? "none" : "block";
+    clearBtn.style.display = isVisible ? "none" : "inline-block";
+  
+    if (isVisible) return; // Don't reload if hiding
+  
+    // Load and display history
     chrome.storage.local.get({ restaurantLog: [] }, (result) => {
       const history = result.restaurantLog;
-      const container = document.getElementById("history-container");
   
-      // Toggle visibility
-      container.style.display = container.style.display === "none" ? "block" : "none";
-  
-      // Clear previous content
       container.innerHTML = "";
   
       if (history.length === 0) {
@@ -191,7 +197,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
   
-      // Create a list
       const list = document.createElement("ul");
       list.style.paddingLeft = "0";
   
@@ -225,13 +230,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
   
       container.appendChild(list);
-    });
-  });
-
-  //Clear history
-  document.getElementById("clear-history").addEventListener("click", () => {
-    chrome.storage.local.set({ restaurantLog: [] }, () => {
-      document.getElementById("history-container").innerHTML = "History cleared.";
     });
   });
   
