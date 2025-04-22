@@ -187,8 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
     // Load and display history
     chrome.storage.local.get({ restaurantLog: [] }, (result) => {
-      const history = result.restaurantLog;
-  
+      const history = result.restaurantLog || [];
       container.innerHTML = "";
   
       if (history.length === 0) {
@@ -205,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         item.style.marginBottom = "10px";
   
         const name = document.createElement("strong");
-        name.textContent = entry.name;
+        name.textContent = entry.name || "Unknown";
   
         const time = document.createElement("div");
         time.textContent = `Chosen: ${new Date(entry.timeChosen).toLocaleString()}`;
@@ -213,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         time.style.color = "#666";
   
         const link = document.createElement("a");
-        link.href = entry.googleMapsLink;
+        link.href = entry.googleMapsLink || "#";
         link.target = "_blank";
         link.textContent = "View on Google Maps";
         link.style.fontSize = "11px";
@@ -230,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
       container.appendChild(list);
     });
-  });
+  });  
   
   // Open settings view
   document.getElementById("open-settings").addEventListener("click", showSettings);
