@@ -174,6 +174,67 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Spin button event
   document.getElementById("spin").addEventListener("click", () => spin());
 
+  //logic for viewing restaurant history
+  document.getElementById("view-history").addEventListener("click", () => {
+    chrome.storage.local.get({ restaurantLog: [] }, (result) => {
+      const history = result.restaurantLog;
+      const container = document.getElementById("history-container");
+  
+      // Toggle visibility
+      container.style.display = container.style.display === "none" ? "block" : "none";
+  
+      // Clear previous content
+      container.innerHTML = "";
+  
+      if (history.length === 0) {
+        container.textContent = "No history yet!";
+        return;
+      }
+  
+      // Create a list
+      const list = document.createElement("ul");
+      list.style.paddingLeft = "0";
+  
+      history.forEach(entry => {
+        const item = document.createElement("li");
+        item.style.listStyle = "none";
+        item.style.marginBottom = "10px";
+  
+        const name = document.createElement("strong");
+        name.textContent = entry.name;
+  
+        const time = document.createElement("div");
+        time.textContent = `Chosen: ${new Date(entry.timeChosen).toLocaleString()}`;
+        time.style.fontSize = "11px";
+        time.style.color = "#666";
+  
+        const link = document.createElement("a");
+        link.href = entry.googleMapsLink;
+        link.target = "_blank";
+        link.textContent = "View on Google Maps";
+        link.style.fontSize = "11px";
+        link.style.color = "#007BFF";
+  
+        item.appendChild(name);
+        item.appendChild(document.createElement("br"));
+        item.appendChild(link);
+        item.appendChild(document.createElement("br"));
+        item.appendChild(time);
+  
+        list.appendChild(item);
+      });
+  
+      container.appendChild(list);
+    });
+  });
+
+  //Clear history
+  document.getElementById("clear-history").addEventListener("click", () => {
+    chrome.storage.local.set({ restaurantLog: [] }, () => {
+      document.getElementById("history-container").innerHTML = "History cleared.";
+    });
+  });
+  
   // Open settings view
   document.getElementById("open-settings").addEventListener("click", showSettings);
 

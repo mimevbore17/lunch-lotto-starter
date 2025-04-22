@@ -159,6 +159,8 @@ function truncateOption(option) {
       const normalizedDegrees = degrees % 360;
       const selectedIndex = Math.floor(normalizedDegrees / (360 / options.length));
       const selectedOption = options[options.length - 1 - selectedIndex];
+      logChosenRestaurant(selectedOption); // Log the selected restaurant
+
         
       // Motivational messages to encourage the user
       const messages = [
@@ -207,6 +209,29 @@ function truncateOption(option) {
     drawWheel();
     spinTimeout = setTimeout(rotateWheel, 30);
   }
+
+  function logChosenRestaurant(restaurant) {
+    chrome.storage.local.get({ restaurantLog: [] }, (result) => {
+      const restaurantLog = result.restaurantLog;
+  
+      const logEntry = {
+        name: restaurant.name,
+        placeId: restaurant.placeId,
+        googleMapsLink: restaurant.googleMapsLink,
+        timeChosen: new Date().toISOString()
+      };
+  
+      restaurantLog.unshift(logEntry);
+      if (restaurantLog.length > 50) {
+        restaurantLog.pop(); // Optional: limit history length
+      }
+  
+      chrome.storage.local.set({ restaurantLog }, () => {
+        console.log("📦 Restaurant logged:", logEntry);
+      });
+    });
+  }
+  
 
 function finalizeWheel() {
   const degrees = (startAngle * 180) / Math.PI + 90; // Convert radians to degrees
