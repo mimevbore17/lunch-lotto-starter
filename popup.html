@@ -23,6 +23,11 @@
         <canvas id="wheel" width="310" height="310"></canvas>
         <button id="spin">Spin</button>
       </div>
+
+      <!-- ✅ History controls go here -->
+      <button id="view-history" style="margin-top: 10px;">View History</button>
+      <div id="history-container" style="display: none; margin-top: 10px; max-height: 200px; overflow-y: auto;"></div>
+
       <!-- 🏆 Selected Restaurant Result -->
       <div id="result-container" style="display: none;">
         <p id="selected-restaurant"></p>
@@ -75,12 +80,6 @@
       transition: width 0.3s ease;
     "></div>
   </div>
-
-  <!-- View History Button -->
-  <button id="view-history" style="margin-top: 10px;">View History</button>
-
-  <!-- History Display Container -->
-  <div id="history-container" style="display: none; margin-top: 10px; max-height: 200px; overflow-y: auto;"></div>
 
 
 
