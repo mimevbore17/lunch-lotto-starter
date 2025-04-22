@@ -186,9 +186,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isVisible) return; // Don't reload if hiding
   
     // Load and display history
-    chrome.storage.local.get({ restaurantLog: [] }, (result) => {
+    chrome.storage.local.get(["restaurantLog"], (result) => {
       const history = result.restaurantLog || [];
-      container.innerHTML = "";
+      container.innerHTML = ""; // Clear any previous content
   
       if (history.length === 0) {
         container.textContent = "No history yet!";
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
       container.appendChild(list);
     });
-  });  
+  });    
   
   // Open settings view
   document.getElementById("open-settings").addEventListener("click", showSettings);
